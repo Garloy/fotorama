@@ -1,12 +1,7 @@
+.*
+
 # osx noise
-.DS_Store
 profile
-
-# webstorm noise
-.idea
-
-# sass noise
-.sass-cache
 
 node_modules
 *.zip
@@ -16,4 +11,5 @@ src/templates/compiled.js
 .grunt
 _SpecRunner.html
 history.json
-.*
+
+!.editorconfig

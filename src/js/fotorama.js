@@ -22,6 +22,9 @@ jQuery.Fotorama = function ($fotorama, opts) {
       $stageFrame = $(),
       $arrPrev = $(div(arrClass + ' ' + arrPrevClass + buttonAttributes)),
       $arrNext = $(div(arrClass + ' ' + arrNextClass + buttonAttributes)),
+      $counter = $(div(counterClass, span('', '/'))).appendTo($stage),
+      $counterIndex = $(span('')).prependTo($counter),
+      $counterSize = $(span('')).appendTo($counter),
       $arrs = $arrPrev.add($arrNext).appendTo($stage),
       $navWrap = $(div(navWrapClass)),
       $nav = $(div(navClass)).appendTo($navWrap),
@@ -66,6 +69,7 @@ jQuery.Fotorama = function ($fotorama, opts) {
       o_fade,
       o_thumbSide,
       o_thumbSide2,
+      o_thumbAlign,
       o_transitionDuration,
       o_transition,
       o_shadows,
@@ -123,7 +127,10 @@ jQuery.Fotorama = function ($fotorama, opts) {
         dataFrame.i = dataFrameCount++;
         var video = findVideoId(dataFrame.video, true);
         if (video) {
-          var thumbs = {};
+          var thumbs = {
+            img: dataFrame.img,
+            thumb: dataFrame.thumb
+          };
           dataFrame.video = video;
           if (!dataFrame.img && !dataFrame.thumb) {
             thumbs = getVideoThumbs(dataFrame, data, that);
@@ -251,7 +258,7 @@ jQuery.Fotorama = function ($fotorama, opts) {
 
     o_fade = (opts.transition === 'crossfade' || opts.transition === 'dissolve');
 
-    o_loop = opts.loop && (size > 2 || (o_fade && (!o_transition || o_transition !== 'slide')));
+    o_loop = opts.loop && (size >= 2 || (o_fade && (!o_transition || o_transition !== 'slide')));
 
     o_transitionDuration = +opts.transitionduration || TRANSITION_DURATION;
 
@@ -286,6 +293,7 @@ jQuery.Fotorama = function ($fotorama, opts) {
 
     o_thumbSide = numberFromMeasure(opts.thumbwidth) || THUMB_SIZE;
     o_thumbSide2 = numberFromMeasure(opts.thumbheight) || THUMB_SIZE;
+    o_thumbAlign = opts.thumbalign || THUMB_ALIGN;
 
     stageWheelTail.ok = navWheelTail.ok = opts.trackpad && !SLOW;
 
@@ -301,7 +309,7 @@ jQuery.Fotorama = function ($fotorama, opts) {
       $navFrame = $navThumbFrame;
       navFrameKey = NAV_THUMB_FRAME_KEY;
 
-      setStyle($style, $.Fotorama.jst.style({w: o_thumbSide, h: o_thumbSide2, b: opts.thumbborderwidth, m: opts.thumbmargin, s: stamp, q: !COMPAT}));
+      setStyle($style, $.Fotorama.jst.style({w: o_thumbSide, h: o_thumbSide2, a: o_thumbAlign, b: opts.thumbborderwidth, m: opts.thumbmargin, s: stamp, q: !COMPAT}));
 
       $nav
           .addClass(navThumbsClass)
@@ -343,6 +351,7 @@ jQuery.Fotorama = function ($fotorama, opts) {
     addOrRemoveClass(o_fade, wrapFadeClass);
     addOrRemoveClass(!o_fade, wrapSlideClass);
     addOrRemoveClass(!opts.captions, wrapNoCaptionsClass);
+    addOrRemoveClass(!opts.counter, wrapNoCounterClass);
     addOrRemoveClass(o_rtl, wrapRtlClass);
     addOrRemoveClass(opts.arrows !== 'always', wrapToggleArrowsClass);
 
@@ -489,9 +498,6 @@ jQuery.Fotorama = function ($fotorama, opts) {
       }
 
       function loaded () {
-        ////console.log('loaded: ' + src);
-
-        //console.log('$.Fotorama.measures[src]', $.Fotorama.measures[src]);
 
         $.Fotorama.measures[src] = imgData.measures = $.Fotorama.measures[src] || {
           width: img.width,
@@ -606,7 +612,6 @@ jQuery.Fotorama = function ($fotorama, opts) {
       var frame = $frame[0];
 
       if (type === 'stage') {
-
         if (dataFrame.html) {
           $('<div class="' + htmlClass + '"></div>')
               .append(
@@ -754,6 +759,12 @@ jQuery.Fotorama = function ($fotorama, opts) {
 
   function disableDirrection (i) {
     return !o_loop && (!(activeIndex + i) || !(activeIndex - size + i)) && !$videoPlaying;
+  }
+
+  function counterUpdate () {
+    if (that.size < 2) {$counter.hide(); return;}
+    $counterIndex.text(that.activeIndex +1);
+    $counterSize.text(that.size);
   }
 
   function arrsUpdate () {
@@ -1117,6 +1128,8 @@ jQuery.Fotorama = function ($fotorama, opts) {
     arrsUpdate();
     ////console.timeEnd('arrsUpdate');
 
+    counterUpdate();
+
     if (o_nav) {
       ////console.time('navUpdate');
       navUpdate();
@@ -1199,10 +1212,11 @@ jQuery.Fotorama = function ($fotorama, opts) {
 
       updateTouchTails('x', false);
 
-      that.resize();
       loadImg(activeIndexes, 'stage');
 
       lockScroll($WINDOW, scrollLeft, scrollTop);
+
+      $BODY.trigger('resize');
 
       triggerEvent('fullscreenexit');
     }
@@ -1229,6 +1243,7 @@ jQuery.Fotorama = function ($fotorama, opts) {
   });
 
   that.resize = function (options) {
+
     if (!data) return this;
 
     var time = arguments[1] || 0,
@@ -1332,6 +1347,7 @@ jQuery.Fotorama = function ($fotorama, opts) {
   };
 
   that.playVideo = function () {
+
     var dataFrame = activeFrame,
         video = dataFrame.video,
         _activeIndex = activeIndex;

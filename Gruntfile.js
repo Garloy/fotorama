@@ -390,47 +390,6 @@ shell: {
 },
 
 jasmine: grunt.file.readJSON('test/specs/_specs.json'),
-
-tweet: {
-  options: {
-    consumer_key: '<%= grunt.file.readJSON("secret.json").tweet.consumer_key %>',
-    consumer_secret: '<%= grunt.file.readJSON("secret.json").tweet.consumer_secret %>',
-    access_token: '<%= grunt.file.readJSON("secret.json").tweet.access_token %>',
-    access_token_secret: '<%= grunt.file.readJSON("secret.json").tweet.access_token_secret %>'
-  },
-  release: {
-    options: {
-      crop: true
-    },
-    text: 'Fotorama <%= pkg.version %>, “<%= grunt.file.readJSON("history.json")[pkg.version + ":name"] %>”',
-    url: 'https://github.com/artpolikarpov/fotorama/releases/tag/<%= pkg.version %>'
-  }
-},
-
-gh_release: {
-  options: {
-    token: '<%= grunt.file.readJSON("secret.json").github.token %>',
-    owner: 'artpolikarpov',
-    repo: 'fotorama'
-  },
-  release: {
-    tag_name: '<%= pkg.version %>', // required
-    name: '<%= grunt.file.readJSON("history.json")[pkg.version + ":name"] %>',
-    body: '<%= grunt.file.readJSON("history.json")[pkg.version + ":notes"] %>',
-    asset: [
-      {
-        name: 'fotorama-<%= pkg.version %>.zip',
-        file: 'out/fotorama-<%= pkg.version %>.zip',
-        'Content-Type': 'application/zip'
-      },
-      {
-        name: 'fotorama-<%= pkg.version %>.dev.zip',
-        file: 'out/fotorama-<%= pkg.version %>.dev.zip',
-        'Content-Type': 'application/zip'
-      }
-    ]
-  }
-}
 });
 
 grunt.loadNpmTasks('grunt-contrib-watch');
@@ -449,9 +408,6 @@ grunt.loadNpmTasks('grunt-contrib-compress');
 grunt.loadNpmTasks('grunt-s3');
 grunt.loadNpmTasks('grunt-contrib-connect');
 grunt.loadNpmTasks('grunt-shell');
-
-grunt.loadNpmTasks('grunt-tweet');
-grunt.loadNpmTasks('grunt-gh-release');
 
 var defaultTask = 'copy:i sass autoprefixer jst replace:jst concat:js replace:console concat:css uglify cssmin jasmine clean copy:example compress';
 //var build = 'copy:i sass autoprefixer jst replace:jst concat:js replace:console concat:css uglify cssmin clean copy:example compress'.split(' ');

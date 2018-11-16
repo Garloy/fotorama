@@ -231,7 +231,7 @@ $blue: mix(#00d1ff, #008ed6);
 .fotorama__nav--thumbs {
   display: block;
   .fotorama__nav__frame {
-    padding-left: 0 !important;
+    padding: 0;
     &:last-child {
       padding-right: 0 !important;
     }
@@ -295,6 +295,26 @@ $blue: mix(#00d1ff, #008ed6);
   border-color: $blue;
   background-image: linear-gradient(to bottom right, rgba(255, 255, 255, .25), rgba(64, 64, 64, .1));
   @extend %no-bg-on-print;
+}
+
+.fotorama__counter {
+  position: relative;
+  z-index: 12;
+  left: 2px;
+  top: 2px;
+  padding: 5px;
+  background: rgba(0, 0, 0, .5);
+  color: #fff;
+  float: left;
+  border-radius: 3px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+
+  .fotorama__wrap--no-counter & {
+    display: none;
+  }
+}
+.fotorama__counter span + span{
+  margin-left: .2em;
 }
 
 .fotorama__caption {

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Basic fotorama</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
+  <!-- jQuery -->
+  <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+  <!-- Demo -->
+  <script src="demo.js"></script>
+  <link href="demo.css" rel="stylesheet" />
+
+  <!-- Fotorama -->
+  <link href="../../out/fotorama.css" rel="stylesheet">
+  <script src="../../out/fotorama.js"></script>
+
+</head>
+
+<body>
+
+<!-- Fotorama -->
+<div class="fotorama"
+     data-width="700"
+     data-ratio="510/340"
+     data-max-width="100%"
+     data-allow-full-screen="true"
+     data-loop="true"
+     data-nav="thumbs"
+     data-thumbfit="contain"
+     data-keyboard="true"
+     data-arrows="false"
+>
+    <a href="photo/gov_1s.jpg" data-full="photo/gov_1b.jpg" data-thumb="photo/gov_1t.jpg" data-caption="bla"></a>
+    <a href="http://youtube.com/watch?v=C3lWwBslWqg" data-thumb="photo/gov_2t.jpg" data-img="photo/gov_2s.jpg" data-caption="bla"></a>
+    <a href="photo/gov_3s.jpg" data-full="photo/gov_3b.jpg" data-thumb="photo/gov_3t.jpg"></a>
+    <a href="photo/gov_4s.jpg" data-full="photo/gov_4b.jpg" data-thumb="photo/gov_4t.jpg"></a>
+    <a href="photo/gov_5s.jpg" data-full="photo/gov_5b.jpg" data-thumb="photo/gov_5t.jpg"></a>
+</div>
+
+</body>
+</html>

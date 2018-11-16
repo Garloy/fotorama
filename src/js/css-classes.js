@@ -13,6 +13,7 @@ var _fotoramaClass = 'fotorama',
     wrapRtlClass = wrapClass + '--rtl',
     wrapOnlyActiveClass = wrapClass + '--only-active',
     wrapNoCaptionsClass = wrapClass + '--no-captions',
+    wrapNoCounterClass = wrapClass + '--no-counter',
     wrapToggleArrowsClass = wrapClass + '--toggle-arrows',
 
     stageClass = _fotoramaClass + '__stage',
@@ -75,6 +76,8 @@ var _fotoramaClass = 'fotorama',
     videoClass = _fotoramaClass + '__video',
     videoPlayClass = videoClass + '-play',
     videoCloseClass = videoClass + '-close',
+
+    counterClass = _fotoramaClass + '__counter',
 
     captionClass = _fotoramaClass + '__caption',
     captionWrapClass = _fotoramaClass + '__caption__wrap',

@@ -24,6 +24,7 @@ var $WINDOW = $(window),
     AUTOPLAY_INTERVAL = 5000,
     MARGIN = 2,
     THUMB_SIZE = 64,
+    THUMB_ALIGN = 'center',
 
     WIDTH = 500,
     HEIGHT = 333,
@@ -66,6 +67,7 @@ var $WINDOW = $(window),
       thumbwidth: THUMB_SIZE,
       thumbheight: THUMB_SIZE,
       thumbmargin: MARGIN,
+      thumbalign: THUMB_ALIGN,
       thumbborderwidth: MARGIN,
       thumbfit: 'cover', // 'contain' || 'scaledown' || 'none'
 
@@ -76,6 +78,8 @@ var $WINDOW = $(window),
       transitionduration: TRANSITION_DURATION,
 
       captions: true,
+
+      counter: true,
 
       hash: false,
       startindex: 0,
